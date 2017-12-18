@@ -612,6 +612,7 @@
 #define RPM_LINE_A4  1.203413e-01  // Used N_PIECES = 4. A and B constants of line 4.
 #define RPM_LINE_B4  1.151360e+03
 
+#define USE_STATUS_LED
 
 /* ---------------------------------------------------------------------------------------
    OEM Single File Configuration Option

@@ -179,9 +179,9 @@
   #define DIRECTION_MASK    ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)) // All direction bits
 
   // Define stepper driver enable/disable output pin.
-  #define STEPPERS_DISABLE_DDR    DDRC
-  #define STEPPERS_DISABLE_PORT   PORTC
-  #define STEPPERS_DISABLE_BIT    5
+  #define STEPPERS_DISABLE_DDR    DDRD
+  #define STEPPERS_DISABLE_PORT   PORTD
+  #define STEPPERS_DISABLE_BIT    4
   #define STEPPERS_DISABLE_MASK   (1<<STEPPERS_DISABLE_BIT)
 
   // Define homing/hard limit switch input pins and limit interrupt vectors.
@@ -215,18 +215,18 @@
   #define SPINDLE_ENABLE_BIT    2  // Uno Digital Pin 12
   #endif
   #ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
-  #define SPINDLE_DIRECTION_DDR   DDRB
-  #define SPINDLE_DIRECTION_PORT  PORTB
-  #define SPINDLE_DIRECTION_BIT   5  // Uno Digital Pin 13 (NOTE: D13 can't be pulled-high input due to LED.)
+  #define SPINDLE_DIRECTION_DDR   DDRC
+  #define SPINDLE_DIRECTION_PORT  PORTC
+  #define SPINDLE_DIRECTION_BIT   7  // Uno Digital Pin 13 (NOTE: D13 can't be pulled-high input due to LED.)
   #endif
 
   // Define flood and mist coolant enable output pins.
-  #define COOLANT_FLOOD_DDR   DDRF
-  #define COOLANT_FLOOD_PORT  PORTF
-  #define COOLANT_FLOOD_BIT   2  // Uno Analog Pin 3
-  #define COOLANT_MIST_DDR   DDRF
-  #define COOLANT_MIST_PORT  PORTF
-  #define COOLANT_MIST_BIT   3  // Uno Analog Pin 4
+  #define COOLANT_FLOOD_DDR   DDRG
+  #define COOLANT_FLOOD_PORT  PORTG
+  #define COOLANT_FLOOD_BIT   0  // Uno Analog Pin 3
+  #define COOLANT_MIST_DDR   DDRG
+  #define COOLANT_MIST_PORT  PORTG
+  #define COOLANT_MIST_BIT   1  // Uno Analog Pin 4
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).
@@ -234,8 +234,8 @@
   #define CONTROL_PIN       PINE
   #define CONTROL_PORT      PORTE
   #define CONTROL_RESET_BIT         4  // Uno Analog Pin 0
-  #define CONTROL_FEED_HOLD_BIT     6  // Uno Analog Pin 1
-  #define CONTROL_CYCLE_START_BIT   5  // Uno Analog Pin 2
+  #define CONTROL_FEED_HOLD_BIT     5  // Uno Analog Pin 1
+  #define CONTROL_CYCLE_START_BIT   6  // Uno Analog Pin 2
   #define CONTROL_SAFETY_DOOR_BIT   7  // Uno Analog Pin 1 NOTE: Safety door is shared with feed hold. Enabled by config define.
   #define CONTROL_INT       PCIE1  // Pin change interrupt enable pin
   
@@ -278,6 +278,16 @@
   #define SPINDLE_PWM_DDR	  DDRB
   #define SPINDLE_PWM_PORT  PORTB
   #define SPINDLE_PWM_BIT	  7    // Uno Digital Pin 11
+
+  #ifdef USE_STATUS_LED
+	#define STATUS_LED_RED_DDR	  DDRG
+	#define STATUS_LED_RED_PORT	  PORTG
+	#define STATUS_LED_RED_BIT	  3
+	#define STATUS_LED_GRN_DDR	  DDRG
+	#define STATUS_LED_GRN_PORT	  PORTG
+	#define STATUS_LED_GRN_BIT	  4
+  #endif
+
 #endif
 
 /*
