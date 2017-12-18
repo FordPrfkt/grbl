@@ -231,7 +231,11 @@ void st_wake_up()
   #endif
 
   // Enable Stepper Driver Interrupt
+#ifdef CPU_MAP_ATMEGA128A
+  TIMSK |= (1<<OCIE1A);
+#else
   TIMSK1 |= (1<<OCIE1A);
+#endif // CPU_MAP_ATMEGA128A
 }
 
 
@@ -239,7 +243,11 @@ void st_wake_up()
 void st_go_idle()
 {
   // Disable Stepper Driver Interrupt. Allow Stepper Port Reset Interrupt to finish, if active.
+#ifdef CPU_MAP_ATMEGA128A
+  TIMSK &= ~(1<<OCIE1A); // Disable Timer1 interrupt
+#else
   TIMSK1 &= ~(1<<OCIE1A); // Disable Timer1 interrupt
+#endif // CPU_MAP_ATMEGA128A
   TCCR1B = (TCCR1B & ~((1<<CS12) | (1<<CS11))) | (1<<CS10); // Reset clock to no prescaling.
   busy = false;
 
@@ -322,7 +330,11 @@ ISR(TIMER1_COMPA_vect)
   // Enable step pulse reset timer so that The Stepper Port Reset Interrupt can reset the signal after
   // exactly settings.pulse_microseconds microseconds, independent of the main Timer1 prescaler.
   TCNT0 = st.step_pulse_time; // Reload Timer0 counter
+#ifdef CPU_MAP_ATMEGA128A
+  TCCR0 = (1<<CS01); // Begin Timer0. Full speed, 1/8 prescaler
+#else
   TCCR0B = (1<<CS01); // Begin Timer0. Full speed, 1/8 prescaler
+#endif // CPU_MAP_ATMEGA128A
 
   busy = true;
   sei(); // Re-enable interrupts to allow Stepper Port Reset Interrupt to fire on-time.
@@ -450,7 +462,11 @@ ISR(TIMER0_OVF_vect)
 {
   // Reset stepping pins (leave the direction pins)
   STEP_PORT = (STEP_PORT & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK);
+#ifdef CPU_MAP_ATMEGA128A
+  TCCR0 = 0; // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
+#else
   TCCR0B = 0; // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
+#endif // CPU_MAP_ATMEGA128A
 }
 #ifdef STEP_PULSE_DELAY
   // This interrupt is used only when STEP_PULSE_DELAY is enabled. Here, the step pulse is
@@ -520,6 +536,14 @@ void stepper_init()
   // TIMSK1 &= ~(1<<OCIE1A);  // Set in st_go_idle().
 
   // Configure Timer 0: Stepper Port Reset Interrupt
+#ifdef CPU_MAP_ATMEGA128A
+  TIMSK &= ~((1<<OCIE0) | (1<<TOIE0)); // Disconnect OC0 outputs and OVF interrupt.
+  TCCR0 = 0; // Normal operation
+  TIMSK |= (1<<TOIE0); // Enable Timer0 overflow interrupt
+  #ifdef STEP_PULSE_DELAY
+	TIMSK |= (1<<OCIE0A); // Enable Timer0 Compare Match A interrupt
+  #endif
+#else
   TIMSK0 &= ~((1<<OCIE0B) | (1<<OCIE0A) | (1<<TOIE0)); // Disconnect OC0 outputs and OVF interrupt.
   TCCR0A = 0; // Normal operation
   TCCR0B = 0; // Disable Timer0 until needed
@@ -527,6 +551,7 @@ void stepper_init()
   #ifdef STEP_PULSE_DELAY
     TIMSK0 |= (1<<OCIE0A); // Enable Timer0 Compare Match A interrupt
   #endif
+#endif // CPU_MAP_ATMEGA128A
 }
 
 

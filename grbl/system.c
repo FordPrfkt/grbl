@@ -30,7 +30,11 @@ void system_init()
     CONTROL_PORT |= CONTROL_MASK;   // Enable internal pull-up resistors. Normal high operation.
   #endif
   CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
+#ifdef CPU_MAP_ATMEGA128A
+  //TODO: //PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
+#else
   PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
+#endif // CPU_MAP_ATMEGA128A
 }
 
 
@@ -55,7 +59,11 @@ uint8_t system_control_get_state()
   return(control_state);
 }
 
-
+#ifdef CPU_MAP_ATMEGA128A
+	ISR(CONTROL_RESET_INT_vect, ISR_ALIASOF(CONTROL_INT_vect));
+	ISR(CONTROL_FEED_INT_vect, ISR_ALIASOF(CONTROL_INT_vect));
+	ISR(CONTROL_CYCLESTART_INT_vect, ISR_ALIASOF(CONTROL_INT_vect));
+#endif
 // Pin change interrupt for pin-out commands, i.e. cycle start, feed hold, and reset. Sets
 // only the realtime command execute variable to have the main program execute these when
 // its ready. This works exactly like the character-based realtime commands when picked off

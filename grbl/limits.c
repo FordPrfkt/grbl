@@ -42,16 +42,28 @@ void limits_init()
 
   if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
     LIMIT_PCMSK |= LIMIT_MASK; // Enable specific pins of the Pin Change Interrupt
-    PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
+	
+#ifdef CPU_MAP_ATMEGA128A
+	//TODO: PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
+#else
+	PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
+#endif
+	    
   } else {
     limits_disable();
   }
 
-  #ifdef ENABLE_SOFTWARE_DEBOUNCE
-    MCUSR &= ~(1<<WDRF);
-    WDTCSR |= (1<<WDCE) | (1<<WDE);
-    WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
-  #endif
+#ifdef ENABLE_SOFTWARE_DEBOUNCE
+	#ifdef CPU_MAP_ATMEGA128A
+		MCUCSR &= ~(1<<WDRF);
+		WDTCR |= (1<<WDCE) | (1<<WDE);
+		WDTCR = (1<<WDP0); // Set time-out at ~32msec.
+	#else
+		MCUSR &= ~(1<<WDRF);
+		WDTCSR |= (1<<WDCE) | (1<<WDE);
+		WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
+	#endif
+#endif
 }
 
 
@@ -59,7 +71,12 @@ void limits_init()
 void limits_disable()
 {
   LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
+
+#ifdef CPU_MAP_ATMEGA128A
+  //TODO: PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
+#else
   PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
+#endif
 }
 
 
@@ -83,6 +100,10 @@ uint8_t limits_get_state()
   return(limit_state);
 }
 
+#ifdef CPU_MAP_ATMEGA128A
+	ISR(LIMIT_Z_INT_vect, ISR_ALIASOF(LIMIT_INT_vect));
+	ISR(LIMIT_Y_INT_vect, ISR_ALIASOF(LIMIT_INT_vect));
+#endif
 
 // This is the Limit Pin Change Interrupt, which handles the hard limit feature. A bouncing
 // limit switch can cause a lot of problems, like false readings and multiple interrupt calls.
@@ -123,7 +144,11 @@ uint8_t limits_get_state()
   ISR(LIMIT_INT_vect) { if (!(WDTCSR & (1<<WDIE))) { WDTCSR |= (1<<WDIE); } }
   ISR(WDT_vect) // Watchdog timer ISR
   {
-    WDTCSR &= ~(1<<WDIE); // Disable watchdog timer. 
+#ifdef CPU_MAP_ATMEGA128A
+    WDTCR &= ~(1<<WDIE); // Disable watchdog timer.
+#else
+	WDTCSR &= ~(1<<WDIE); // Disable watchdog timer. 
+#endif
     if (sys.state != STATE_ALARM) {  // Ignore if already in alarm state. 
       if (!(sys_rt_exec_alarm)) {
         // Check limit pin state. 

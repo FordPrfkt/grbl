@@ -72,6 +72,7 @@ void serial_init()
     uint16_t UBRR0_value = ((F_CPU / (4L * BAUD_RATE)) - 1)/2;
     UCSR0A |= (1 << U2X0);  // baud doubler on for high baud rates, i.e. 115200
   #endif
+  
   UBRR0H = UBRR0_value >> 8;
   UBRR0L = UBRR0_value;
 
@@ -79,6 +80,16 @@ void serial_init()
   UCSR0B |= (1<<RXEN0 | 1<<TXEN0 | 1<<RXCIE0);
 
   // defaults to 8-bit, no parity, 1 stop bit
+#ifdef CPU_MAP_ATMEGA128A
+  UCSR0C |= (1 << UCSZ00)||(1 << UCSZ01);
+#endif
+
+  #ifdef UART_USE_HW_HANDSHAKE
+    SERIAL_RTS_DDR |= (1 << SERIAL_RTS_BIT); // Configure as output pin
+	SERIAL_CTS_DDR &= ~(1 << SERIAL_CTS_BIT); // Set as input pins
+	SERIAL_CTS_PORT &= ~(1 << SERIAL_CTS_BIT); // Normal low operation. Requires external pull-down.
+	SERIAL_RTS_PORT &= ~(1 << SERIAL_RTS_BIT); //Enable RTS
+  #endif
 }
 
 
@@ -201,4 +212,7 @@ ISR(SERIAL_RX)
 void serial_reset_read_buffer()
 {
   serial_rx_buffer_tail = serial_rx_buffer_head;
+#ifdef UART_USE_HW_HANDSHAKE
+  SERIAL_RTS_PORT &= ~(1 << SERIAL_RTS_BIT); //Enable RTS
+#endif
 }
