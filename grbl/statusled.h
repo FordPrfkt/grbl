@@ -31,6 +31,8 @@
 /*=============================================================================
 =======                              EXPORTS                            =======
 =============================================================================*/
+void statusled_init(void);
+void statusled_update(void);
 
 /* end of storage class specifier if used with C++ */
 #ifdef  __cplusplus

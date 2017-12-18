@@ -11,6 +11,7 @@
  =======                            INCLUDES                             =======
  =============================================================================*/
 #include "statusled.h"
+#include "grbl.h"
 /*=============================================================================
  =======               DEFINES & MACROS FOR GENERAL PURPOSE              =======
  =============================================================================*/
@@ -39,6 +40,49 @@
 /* -----------------------------------------------------
  * --               Public functions                  --
  * ----------------------------------------------------- */
+ void statusled_init(void)
+ {
+#ifdef USE_STATUS_LED
+  STATUS_LED_RED_DDR |= (1 <<  STATUS_LED_RED_BIT);
+  STATUS_LED_GRN_DDR |= (1 <<  STATUS_LED_GRN_BIT);
+
+  STATUS_LED_RED_PORT &= ~(1 <<  STATUS_LED_RED_BIT);
+  STATUS_LED_GRN_PORT &= ~(1 <<  STATUS_LED_GRN_BIT);
+#endif	
+ }
+
+ void statusled_update(void)
+ {
+ #ifdef USE_STATUS_LED
+	 switch (sys.state)
+	 {
+		case STATE_IDLE:
+		case STATE_CHECK_MODE:
+		case STATE_SAFETY_DOOR:
+			STATUS_LED_RED_PORT &= ~(1 <<  STATUS_LED_RED_BIT);
+			STATUS_LED_GRN_PORT |= (1 <<  STATUS_LED_GRN_BIT);
+	 	break;
+
+		case STATE_ALARM:
+			STATUS_LED_RED_PORT |= (1 <<  STATUS_LED_RED_BIT);
+			STATUS_LED_GRN_PORT &= ~(1 <<  STATUS_LED_GRN_BIT);
+		break;
+
+		case STATE_HOMING:
+		case STATE_CYCLE:
+		case STATE_HOLD:
+		case STATE_JOG:
+			STATUS_LED_RED_PORT |= (1 <<  STATUS_LED_RED_BIT);
+			STATUS_LED_GRN_PORT |= (1 <<  STATUS_LED_GRN_BIT);
+		break;
+
+		default:
+			STATUS_LED_RED_PORT &= ~(1 <<  STATUS_LED_RED_BIT);
+			STATUS_LED_GRN_PORT |= (1 <<  STATUS_LED_GRN_BIT);
+		break;
+	 }
+#endif
+ }
 
 /* -----------------------------------------------------
  * --               Private functions                  --
