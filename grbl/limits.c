@@ -44,7 +44,7 @@ void limits_init()
     LIMIT_PCMSK |= LIMIT_MASK; // Enable specific pins of the Pin Change Interrupt
 	
 #ifdef CPU_MAP_ATMEGA128A
-	//TODO: PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
+	LIMTI_ISRCFG |= LIMIT_INT; // Enable Pin Change Interrupt
 #else
 	PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
 #endif
@@ -73,7 +73,7 @@ void limits_disable()
   LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
 
 #ifdef CPU_MAP_ATMEGA128A
-  //TODO: PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
+  LIMTI_ISRCFG &= ~LIMIT_INT; // Enable Pin Change Interrupt  // Disable Pin Change Interrupt
 #else
   PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
 #endif

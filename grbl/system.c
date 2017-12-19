@@ -27,11 +27,11 @@ void system_init()
   #ifdef DISABLE_CONTROL_PIN_PULL_UP
     CONTROL_PORT &= ~(CONTROL_MASK); // Normal low operation. Requires external pull-down.
   #else
-    CONTROL_PORT |= CONTROL_MASK;   // Enable internal pull-up resistors. Normal high operation.
+    CONTROL_PORT |= CONTROL_PULLUP_MASK;   // Enable internal pull-up resistors. Normal high operation.
   #endif
   CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
 #ifdef CPU_MAP_ATMEGA128A
-  //TODO: //PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
+  CONTROL_ISRCFG |= CONTROL_INT;   // Enable Pin Change Interrupt
 #else
   PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
 #endif // CPU_MAP_ATMEGA128A
