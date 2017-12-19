@@ -230,6 +230,8 @@ void protocol_exec_rt_system()
       report_feedback_message(MESSAGE_CRITICAL_EVENT);
       system_clear_exec_state_flag(EXEC_RESET); // Disable any existing reset
       do {
+	  	statusled_update();
+
         // Block everything, except reset and status reports, until user issues reset or power
         // cycles. Hard limits typically occur while unattended or not paying attention. Gives
         // the user and a GUI time to do what is needed before resetting, like killing the
@@ -544,6 +546,8 @@ static void protocol_exec_rt_suspend()
   #endif
 
   while (sys.suspend) {
+
+  	statusled_update();
 
     if (sys.abort) { return; }
 
