@@ -94,6 +94,7 @@ int main(void)
     plan_reset(); // Clear block buffer and planner variables
     st_reset(); // Clear stepper subsystem variables.
     statusled_init();  //Configure pins
+	SPI_Init(SPI_LSB_FIRST, SPI_CP_FALLING, SPI_CLK_LEADING, SPI_DIV_2);
 
     // Sync cleared gcode and planner positions to current system position.
     plan_sync_position();

@@ -61,6 +61,7 @@
 #include "stepper.h"
 #include "jog.h"
 #include "statusled.h"
+#include "spi.h"
 
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:
