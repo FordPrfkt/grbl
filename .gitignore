@@ -1,7 +1,13 @@
 *.hex
 *.o
 *.elf
+*.eep
+*.lss
+*.map
+*.srec
 *.DS_Store
 *.d
+Debug/makefile
+Debug/*.mk
 
 README.md
