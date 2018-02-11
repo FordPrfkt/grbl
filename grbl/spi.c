@@ -10,10 +10,7 @@
 /*=============================================================================
  =======                            INCLUDES                             =======
  =============================================================================*/
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <stdint.h>
-#include "spi.h"
+#include "grbl.h"
 /*=============================================================================
  =======               DEFINES & MACROS FOR GENERAL PURPOSE              =======
  =============================================================================*/
@@ -38,8 +35,12 @@ volatile uint8_t dummy;
  * ----------------------------------------------------- */
 void SPI_Init(SPI_DataOrder_t dataOrder, SPI_ClkPol_t clockPolarity, SPI_ClkPhs_t clockPhase, SPI_Prescaler_t clockPrescaler)
 {
-	SPCR = 0;
-	SPCR |= ((1 << SPE) | (1 << MSTR));
+	SPI_DDR |= ((1 << SPI_SCK_BIT) | (1 << SPI_MOSI_BIT) | (1 << SPI_SS_BIT));
+	SPI_DDR &= ~(1 << SPI_MISO_BIT);
+
+	SPI_PORT &= ~(1 << SPI_MOSI_BIT);
+	SPI_PORT &= ~(1 << SPI_SS_BIT);
+
 	SPI_SetMode(dataOrder, clockPolarity, clockPhase, clockPrescaler);
 	
 	dummy = SPSR;
@@ -48,11 +49,12 @@ void SPI_Init(SPI_DataOrder_t dataOrder, SPI_ClkPol_t clockPolarity, SPI_ClkPhs_
 
 void SPI_SetMode(SPI_DataOrder_t dataOrder, SPI_ClkPol_t clockPolarity, SPI_ClkPhs_t clockPhase, SPI_Prescaler_t clockPrescaler)
 {
-	SPCR &= 0xD0; // Reset SPCR to Init State
+	SPCR = 0;
+	SPCR |= ((1 << SPE) | (1 << MSTR));
 	SPCR |= (dataOrder << DORD);
 	SPCR |= (clockPolarity << CPOL);
 	SPCR |= (clockPhase << CPHA);
-	SPCR |= (0x03 & (clockPrescaler << SPR1));
+	SPCR |= (0x03 & clockPrescaler);
 	if ((clockPrescaler & 0x04) == 0x04)
 	{
 		SPSR |= (1 << SPI2X);
@@ -75,18 +77,22 @@ SPI_Result_t SPI_Transmit(uint8_t data[], uint16_t length)
 		
 		do 
 		{
-			if ((SPSR & (1 << WCOL)) == (1 << WCOL))
+			dummy = SPSR;
+			if ((dummy & (1 << WCOL)) == (1 << WCOL))
 			{
 				result = SPI_COLLISION;
 				break;
 			}
-		} while ((SPSR & (1 << SPIF)) == 0);
+		} while ((dummy & (1 << SPIF)) == 0);
 
 
 		if (SPI_OK != result)
 		{
 			break;
 		}
+		
+		/* Reset SPIF & WCOL */
+		dummy = SPDR;
 	} while (ctr < length);
 	
 	/* Reset SPIF & WCOL */
@@ -111,12 +117,13 @@ SPI_Result_t SPI_Receive(uint8_t data[], uint16_t length)
 		
 		do
 		{
-			if ((SPSR & (1 << WCOL)) == (1 << WCOL))
+			dummy = SPSR;
+			if ((dummy & (1 << WCOL)) == (1 << WCOL))
 			{
 				result = SPI_COLLISION;
 				break;
 			}
-		} while ((SPSR & (1 << SPIF)) == 0);
+		} while ((dummy & (1 << SPIF)) == 0);
 		
 		if (SPI_OK != result)
 		{
@@ -149,12 +156,13 @@ SPI_Result_t SPI_TransmitReceive(uint8_t dataOut[], uint8_t dataIn[], uint16_t l
 		
 		do
 		{
-			if ((SPSR & (1 << WCOL)) == (1 << WCOL))
+			dummy = SPSR;
+			if ((dummy & (1 << WCOL)) == (1 << WCOL))
 			{
 				result = SPI_COLLISION;
 				break;
 			}
-		} while ((SPSR & (1 << SPIF)) == 0);
+		} while ((dummy & (1 << SPIF)) == 0);
 		
 		if (SPI_OK != result)
 		{

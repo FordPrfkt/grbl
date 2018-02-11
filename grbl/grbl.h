@@ -62,6 +62,7 @@
 #include "jog.h"
 #include "statusled.h"
 #include "spi.h"
+#include "TMC2660.h"
 
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:

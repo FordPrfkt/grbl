@@ -289,6 +289,30 @@
 	#define STATUS_LED_GRN_BIT	  4
   #endif
 
+  #ifdef USE_SPI
+    #define SPI_PORT		PORTB
+	#define SPI_DDR			DDRB
+	#define SPI_SS_BIT		0
+	#define SPI_SCK_BIT		1
+	#define SPI_MOSI_BIT	2
+	#define SPI_MISO_BIT	3
+  #endif
+
+ #ifdef USE_TMC2660
+	#define TMC_CSX_PORT PORTD
+	#define TMC_CSX_DDR  DDRD
+	#define TMC_CSX_BIT  7
+	#define TMC_CSY_PORT PORTD
+	#define TMC_CSY_DDR  DDRD
+	#define TMC_CSY_BIT  6
+	#define TMC_CSZ_PORT PORTD
+	#define TMC_CSZ_DDR  DDRD
+	#define TMC_CSZ_BIT  5
+	#define TMC_ENABLE_PORT PORTD
+	#define TMC_ENABLE_DDR DDRD
+	#define TMC_ENABLE_BIT 4
+  #endif
+
 #endif
 
 /*

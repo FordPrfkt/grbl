@@ -71,15 +71,19 @@ void protocol_main_loop()
   uint8_t line_flags = 0;
   uint8_t char_counter = 0;
   uint8_t c;
+
   for (;;) {
 
     // Process one line of incoming serial data, as the data becomes available. Performs an
     // initial filtering by removing spaces and comments and capitalizing all letters.
     while((c = serial_read()) != SERIAL_NO_DATA) {
       if ((c == '\n') || (c == '\r')) { // End of line reached
-
         protocol_execute_realtime(); // Runtime command check point.
-        if (sys.abort) { return; } // Bail to calling function upon system abort
+        if (sys.abort)
+		{ 
+			printPgmString(PSTR("\r Sys abort \r\n"));
+  		return; 
+		} // Bail to calling function upon system abort
 
         line[char_counter] = 0; // Set string termination character.
         #ifdef REPORT_ECHO_LINE_RECEIVED
@@ -109,7 +113,6 @@ void protocol_main_loop()
         char_counter = 0;
 
       } else {
-
         if (line_flags) {
           // Throw away all (except EOL) comment characters and overflow characters.
           if (c == ')') {
@@ -159,8 +162,8 @@ void protocol_main_loop()
     protocol_execute_realtime();  // Runtime command check point.
 
 	statusled_update();
-	
-	if (sys.abort) { return; } // Bail to main() program loop to reset system.
+
+	if (sys.abort) { printPgmString(PSTR("\r Sys Abort \r\n")); return; } // Bail to main() program loop to reset system.
   }
 
   return; /* Never reached */

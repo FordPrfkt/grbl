@@ -229,13 +229,13 @@
 // before initialization. If it detects a problem and the hard limits setting is enabled, Grbl will
 // simply message the user to check the limits and enter an alarm state, rather than idle. Grbl will
 // not throw an alarm message.
-#define CHECK_LIMITS_AT_INIT
+//#define CHECK_LIMITS_AT_INIT
 
 // ---------------------------------------------------------------------------------------
 // ADVANCED CONFIGURATION OPTIONS:
 
 // Enables code for debugging purposes. Not for general use and always in constant flux.
-// #define DEBUG // Uncomment to enable. Default disabled.
+//#define DEBUG // Uncomment to enable. Default disabled.
 
 // Configure rapid, feed, and spindle override settings. These values define the max and min
 // allowable override values and the coarse and fine increments per command received. Please
@@ -376,7 +376,7 @@
 // NOTE: Only use this for debugging purposes!! When echoing, this takes up valuable resources and can effect
 // performance. If absolutely needed for normal operation, the serial write buffer should be greatly increased
 // to help minimize transmission waiting within the serial write protocol.
-// #define REPORT_ECHO_LINE_RECEIVED // Default disabled. Uncomment to enable.
+#define REPORT_ECHO_LINE_RECEIVED // Default disabled. Uncomment to enable.
 
 // Minimum planner junction speed. Sets the default minimum junction speed the planner plans to at
 // every buffer block junction, except for starting from rest and end of the buffer, which are always
@@ -613,6 +613,8 @@
 #define RPM_LINE_B4  1.151360e+03
 
 #define USE_STATUS_LED
+#define USE_SPI
+#define USE_TMC2660
 
 /* ---------------------------------------------------------------------------------------
    OEM Single File Configuration Option

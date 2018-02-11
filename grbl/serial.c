@@ -81,7 +81,7 @@ void serial_init()
 
   // defaults to 8-bit, no parity, 1 stop bit
 #ifdef CPU_MAP_ATMEGA128A
-  UCSR0C |= (1 << UCSZ00)||(1 << UCSZ01);
+  UCSR0C |= ((1 << UCSZ00) | (1 << UCSZ01));
 #endif
 
   #ifdef UART_USE_HW_HANDSHAKE

@@ -27,10 +27,34 @@
 /*=============================================================================
 =======                       CONSTANTS  &  TYPES                       =======
 =============================================================================*/
+typedef enum
+{
+	TMC_X_AXIS = 0,
+	TMC_Y_AXIS,
+	TMC_Z_AXIS
+}TMC_Axis_t;
+
+typedef struct {
+	uint16_t sgCurrent:5;
+	uint16_t csCurrent:5;
+	uint16_t standStill:1;
+	uint16_t openLoadA:1;
+	uint16_t openLoadB:1;
+	uint16_t shortA:1;
+	uint16_t shortB:1;
+	uint16_t overTempWarn:1;
+	uint8_t overTempShtdn:1;
+	uint8_t stallGuard:1;
+	uint8_t reserved:6;
+}TMC_Status_t;
 
 /*=============================================================================
 =======                              EXPORTS                            =======
 =============================================================================*/
+void TMC_Init(void);
+void TMC_GetStatus(TMC_Axis_t axis, TMC_Status_t *status);
+void TMC_Enable(void);
+void TMC_Disable(void);
 
 /* end of storage class specifier if used with C++ */
 #ifdef  __cplusplus

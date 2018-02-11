@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
+    <ProjectGuid>7f1608be-bc82-43b5-900e-c7acb2509980</ProjectGuid>
+    <avrdevice>ATmega128A</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>GRBL_TMC</AssemblyName>
+    <Name>GRBL_TMC</Name>
+    <RootNamespace>GRBL_TMC</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.34.2" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
+    <avrtoolserialnumber>00A200028795</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1E9702</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_avrdragon>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagDbgClock>2000000</JtagDbgClock>
+          <JtagEnableExtResetOnStartSession>true</JtagEnableExtResetOnStartSession>
+          <JtagInChain>false</JtagInChain>
+          <JtagDevicesBefore>0</JtagDevicesBefore>
+          <JtagDevicesAfter>0</JtagDevicesAfter>
+          <JtagInstrBitsBefore>0</JtagInstrBitsBefore>
+          <JtagInstrBitsAfter>0</JtagInstrBitsAfter>
+          <JtagSelectedDeviceIndexInChain>0</JtagSelectedDeviceIndexInChain>
+          <JtagDaisyChainDevices>
+          </JtagDaisyChainDevices>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
+      <ToolNumber>00A200028795</ToolNumber>
+      <ToolName>AVR Dragon</ToolName>
+    </com_atmel_avrdbg_tool_avrdragon>
+    <avrtoolinterface>JTAG</avrtoolinterface>
+    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+    <ResetRule>0</ResetRule>
+    <EraseKey />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atmega128a -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\gcc\dev\atmega128a"</avrgcc.common.Device>
+        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>NDEBUG</Value>
+            <Value>F_CPU=16000000</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize more (-O2)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+        <avrgcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\include</Value>
+          </ListValues>
+        </avrgcc.assembler.general.IncludePaths>
+      </AvrGcc>
+    </ToolchainSettings>
+    <UsesExternalMakeFile>False</UsesExternalMakeFile>
+    <OutputDirectory />
+    <ExternalMakeFilePath>Makefile</ExternalMakeFilePath>
+    <BuildTarget>all</BuildTarget>
+    <PostBuildEvent>copy "D:\Eigene Dateien\Dokumente\Projekte\grbl-tmc2660\Release\grbl_tmc.elf" "D:\Eigene Dateien\Dokumente\Projekte\grbl-tmc2660\grbl_tmc.elf"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atmega128a -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\gcc\dev\atmega128a"</avrgcc.common.Device>
+        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=16000000</Value>
+            <Value>DEBUG</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -mmcu=atmega128a</avrgcc.compiler.miscellaneous.OtherFlags>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+        <avrgcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.132\include</Value>
+          </ListValues>
+        </avrgcc.assembler.general.IncludePaths>
+        <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
+      </AvrGcc>
+    </ToolchainSettings>
+    <UsesExternalMakeFile>False</UsesExternalMakeFile>
+    <OutputDirectory>
+    </OutputDirectory>
+    <ExternalMakeFilePath>D:\Eigene Dateien\Dokumente\Projekte\grbl-tmc2660\Debug\Makefile</ExternalMakeFilePath>
+    <BuildTarget>all</BuildTarget>
+    <OutputFileName>GRBL_TMC</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputType>Executable</OutputType>
+    <CleanTarget>clean</CleanTarget>
+    <PostBuildEvent>copy "D:\Eigene Dateien\Dokumente\Projekte\grbl-tmc2660\Debug\grbl_tmc.elf" "D:\Eigene Dateien\Dokumente\Projekte\grbl-tmc2660\grbl_tmc.elf"</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+  <ItemGroup>
+    <Compile Include="grbl\config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\coolant_control.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\cpu_map.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\defaults.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\eeprom.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\gcode.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\grbl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\jog.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\limits.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\motion_control.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\nuts_bolts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\planner.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\print.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\probe.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\protocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\report.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\serial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\settings.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\spindle_control.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\statusled.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\statusled.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\stepper.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\system.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\TMC2660.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\TMC2660.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Folder Include="grbl" />
+    <Compile Include="grbl\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\motion_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\gcode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\spindle_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\coolant_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\protocol.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\stepper.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\eeprom.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\settings.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\planner.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\nuts_bolts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\limits.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\jog.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\print.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\probe.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\report.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="grbl\system.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

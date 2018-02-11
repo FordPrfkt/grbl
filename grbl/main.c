@@ -77,7 +77,7 @@ int main(void)
     sys.f_override = DEFAULT_FEED_OVERRIDE;  // Set to 100%
     sys.r_override = DEFAULT_RAPID_OVERRIDE; // Set to 100%
     sys.spindle_speed_ovr = DEFAULT_SPINDLE_SPEED_OVERRIDE; // Set to 100%
-		memset(sys_probe_position,0,sizeof(sys_probe_position)); // Clear probe position.
+	memset(sys_probe_position,0,sizeof(sys_probe_position)); // Clear probe position.
     sys_probe_state = 0;
     sys_rt_exec_state = 0;
     sys_rt_exec_alarm = 0;
@@ -94,7 +94,9 @@ int main(void)
     plan_reset(); // Clear block buffer and planner variables
     st_reset(); // Clear stepper subsystem variables.
     statusled_init();  //Configure pins
-	SPI_Init(SPI_LSB_FIRST, SPI_CP_FALLING, SPI_CLK_LEADING, SPI_DIV_2);
+	SPI_Init(SPI_MSB_FIRST, SPI_CP_RISING, SPI_CLK_TRAILING, SPI_DIV_64);
+	TMC_Init();
+	TMC_Enable();
 
     // Sync cleared gcode and planner positions to current system position.
     plan_sync_position();
